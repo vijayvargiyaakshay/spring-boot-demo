@@ -34,8 +34,11 @@ pipeline {
         stage('Deploy') {
             steps {
                 bat '''
-                taskkill /F /IM java.exe /T || echo No running app
-                start "" java -jar target\\*.jar
+                echo Stopping application on port 8081
+                for /f "tokens=5" %%a in ('netstat -ano ^| findstr :8081') do taskkill /PID %%a /F
+
+                echo Starting Spring Boot app
+                start "" java -jar target\\demo-0.0.1-SNAPSHOT.jar
                 '''
             }
         }
