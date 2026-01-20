@@ -34,7 +34,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 bat '''
-                echo Stopping application on port 8081
+                echo Stopping application on port 8082
                 for /f "tokens=5" %%a in ('netstat -ano ^| findstr :8081') do taskkill /PID %%a /F
 
                 echo Starting Spring Boot app
