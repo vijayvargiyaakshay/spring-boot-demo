@@ -35,7 +35,7 @@ pipeline {
             steps {
                 bat '''
                 echo Stopping application on port 8082
-                for /f "tokens=5" %%a in ('netstat -ano ^| findstr :8081') do taskkill /PID %%a /F
+                for /f "tokens=5" %%a in ('netstat -ano ^| findstr :8082') do taskkill /PID %%a /F
 
                 echo Starting Spring Boot app
                 start "" java -jar target\\demo-0.0.1-SNAPSHOT.jar
