@@ -1,8 +1,11 @@
 pipeline {
     agent any
 
-    stages {
+    tools {
+        jdk 'JDK17'
+    }
 
+    stages {
         stage('Checkout Code') {
             steps {
                 git branch: 'main',
@@ -12,29 +15,26 @@ pipeline {
 
         stage('Build') {
             steps {
-                bat 'mvn clean compile'
+                bat 'mvnw.cmd clean compile'
             }
         }
 
         stage('Test') {
             steps {
-                bat 'mvn test'
+                bat 'mvnw.cmd test'
             }
         }
 
         stage('Package') {
             steps {
-                bat 'mvn clean package -DskipTests'
+                bat 'mvnw.cmd clean package -DskipTests'
             }
         }
 
         stage('Deploy') {
             steps {
                 bat '''
-                echo Stopping old app (if running)
                 taskkill /F /IM java.exe /T || echo No running app
-
-                echo Starting Spring Boot app
                 start "" java -jar target\\*.jar
                 '''
             }
